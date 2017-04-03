@@ -29,7 +29,9 @@ rewardings_Oscar = DB[:rewardings_Oscar]
 name_index = 4 # индекс id в ссыдке
 genre_inex = 5
 country_index = 5
-s = [1000, 2000, 5000, 2500]
+
+s = [1, 2, 5, 3] # случайный промажуток времени
+
 50.times do |i|
   id = 1000 + i
 

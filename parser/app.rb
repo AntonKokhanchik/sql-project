@@ -1,3 +1,31 @@
+require 'sequel'
+require 'mysql2'
+require 'hash_dot'
+require 'nokogiri'
+require 'open-uri'
+require 'yaml'
+
+@config = YAML.load_file('config.yml').to_dot
+
+DB = Sequel.connect(
+  adapter: 'mysql2',
+  host: @config.db_host,
+  database: @config.db_name,
+  user: @config.db_user,
+  password: @config.db_password
+)
+
+countries = DB[:countries]
+actors = DB[:actors]
+genres = DB[:genres]
+directors = DB[:directors]
+producers = DB[:producers]
+screenwriters = DB[:screenwriters]
+films = DB[:films]
+rewiews = DB[:rewiews]
+actors_films = DB[:actors_films]
+rewardings_Oscar = DB[:rewardings_Oscar]
+
 name_index = 4 # индекс id в ссыдке
 genre_inex = 5
 country_index = 5

@@ -30,7 +30,7 @@ name_index = 4 # индекс id в ссыдке
 genre_inex = 5
 country_index = 5
 
-s = [1, 2, 5, 3] # случайный промажуток времени
+s = [1, 2, 4, 3] # случайный промежуток времени
 
 50.times do |i|
   id = 1000 + i
@@ -43,43 +43,36 @@ s = [1, 2, 5, 3] # случайный промажуток времени
   rating = page.css(".rating_stars .block2 .rating_ball").text
 
   temp = page.css("#infoTable .info tr[3] a:first").href
-  director =
-  if directors[director_id: temp.split('/')[name_index]] != nil then
-    temp.split('/')[name_index]
+  if directors[director_id: temp.split('/')[name_index]] == nil then
+    nameParser(temp, "directors")
   end
-  nameParser(temp, "directors")
+  director = temp.split('/')[name_index]
 
   temp = page.css("#infoTable .info tr[4] a:first").href
-  producer =
-  if producers[producer_id: temp.split('/')[name_index]] != nil then
-    temp.split('/')[name_index]
+  if producers[producer_id: temp.split('/')[name_index]] == nil then
+    nameParser(temp, "producers")
   end
-  nameParser(temp, "producers")
+  producer = temp.split('/')[name_index]
 
   temp = page.css("#infoTable .info tr[4] a:first").href
-  screenwriter =
-  if screenwriters[screenwriter_id: temp.split('/')[name_index]] != nil then
-    temp.split('/')[name_index]
+  if screenwriters[screenwriter_id: temp.split('/')[name_index]] == nil then
+    nameParser(temp, "screenwriters")
   end
-  nameParser(temp, "screenwriters")
+  screenwriter = temp.split('/')[name_index]
 
   temp = page.css("#infoTable .info tr[2] a:first")
-  country =
-  if countries[country_id: temp.href.split('/')[country_index]] != nil then
-    temp.href.split('/')[country_index]
+  if countries[country_id: temp.href.split('/')[country_index]] == nil then
+    DB.transaction do
+      countries.insert(
+        :country_id => temp.href.split('/')[country_index]
+        :country_name => temp.text
+      )
+    end
   end
-  DB.transaction do
-    countries.insert(
-      :country_id => temp.href.split('/')[country_index]
-      :country_name => temp.text
-    )
-  end
+  country = temp.href.split('/')[country_index]
 
   temp = page.css("#infoTable .info tr[10] a:first")
-  genre =
   if genres[genre_id: temp.href.split('/')[genre_inex]] != nil then
-    temp.href.split('/')[genre_inex]
-  else
     DB.transaction do
       genres.insert(
       :genre_id => temp.href.split('/')[genre_inex]
@@ -87,6 +80,7 @@ s = [1, 2, 5, 3] # случайный промажуток времени
       )
     end
   end
+  genre = temp.href.split('/')[genre_inex]
 
   actorsParser(page_link+"/cast")
 
@@ -102,16 +96,15 @@ def nameParser href, db_name
   year = page.css("#infoTable .info tr[1] a[1]").text
 
   temp = page.css("#infoTable .info tr[2] a[2]")xt
-  country =
   if countries[country_id: temp.href.split('/')[country_index]] != nil then
-    temp.href.split('/')[country_index]
+    DB.transaction do
+      countries.insert(
+        :country_id => temp.href.split('/')[country_index]
+        :country_name => temp.text
+      )
+    end
   end
-  DB.transaction do
-    countries.insert(
-      :country_id => temp.href.split('/')[country_index]
-      :country_name => temp.text
-    )
-  end
+  country = temp.href.split('/')[country_index]
 
   DB.transaction do
     case db_name

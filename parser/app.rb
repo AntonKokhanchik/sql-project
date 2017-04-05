@@ -22,13 +22,11 @@ DB = Sequel.connect(
 @producers = DB[:producers]
 @screenwriters = DB[:screenwriters]
 @films = DB[:films]
-@rewiews = DB[:rewiews]
 @actors_films = DB[:actors_films]
 @rewardings_Oscar = DB[:rewardings_Oscar]
 
 @name_index = 4 # индекс id в ссыдке
 @genre_inex = 5
-@country_index = 5
 @link = "https://www.kinopoisk.ru"
 
 s = [1, 2, 4, 3] # случайный промежуток времени

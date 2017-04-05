@@ -62,12 +62,13 @@ create table films(
     foreign key (genre_id) references genres (genre_id)
 )CHARSET=UTF8;
 
-create table rewiews(
-	rewiew_id int unsigned primary key,
-    rewiew_name varchar(30) not null,
+create table reviews(
+	review_id int unsigned primary key,
+    review_name varchar(30) not null,
+    author_name varchar(30) not null,
     film_id int unsigned not null,
 	author_mark tinyint,
-    rewiew_text text not null,
+    review_text text not null,
     foreign key (film_id) references films (film_id)
 )CHARSET=UTF8;
 

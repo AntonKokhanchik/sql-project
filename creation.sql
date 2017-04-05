@@ -7,7 +7,7 @@ create table actors(
 	actor_id int unsigned primary key,
     actor_name varchar(30) not null,
     actor_surname varchar(20) not null,
-    birth_year tinyint not null,
+    birth_year int(4) not null,
     country_id tinyint unsigned not null,
     foreign key (country_id) references countries(country_id)
 )CHARSET=UTF8;
@@ -22,7 +22,7 @@ create table directors(
 	director_id int unsigned primary key,
     director_name varchar(30) not null,
     director_surname varchar(20) not null,
-    birth_year tinyint not null,
+    birth_year int(4) not null,
     country_id tinyint unsigned not null,
     foreign key (country_id) references countries(country_id)
 )CHARSET=UTF8;
@@ -40,7 +40,7 @@ create table screenwriters(
 	screenwriter_id int unsigned primary key,
     screenwriter_name varchar(30) not null,
     screenwriter_surname varchar(20) not null,
-    birth_year tinyint not null,
+    birth_year int(4) not null,
     country_id tinyint unsigned not null,
     foreign key (country_id) references countries(country_id)
 )CHARSET=UTF8;
@@ -48,7 +48,7 @@ create table screenwriters(
 create table films(
 	film_id int unsigned primary key,
     film_name varchar(50) not null,
-    release_year tinyint not null,
+    release_year int(4) not null,
     rating tinyint,
 	director_id int unsigned not null,
 	producer_id int unsigned,
@@ -81,7 +81,7 @@ create table actors_films(
 )CHARSET=UTF8;
 
 create table rewardings_Oscar(
-	rewarding_year tinyint,
+	rewarding_year int(4),
     actor_id int unsigned not null,
     film_id int unsigned not null,
     nomination varchar(20),

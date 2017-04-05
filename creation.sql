@@ -1,5 +1,5 @@
 create table countries(
-	country_id tinyint unsigned primary key,
+	country_id tinyint unsigned primary key auto_increment,
     country_name varchar(20) not null
 )CHARACTER SET=UTF8;
 

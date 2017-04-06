@@ -31,7 +31,7 @@ create table producers(
 	producer_id int unsigned primary key,
     producer_name varchar(30) not null,
     producer_surname varchar(20) not null,
-    birth_year tinyint not null,
+    birth_year int(4) not null,
     country_id tinyint unsigned not null,
     foreign key (country_id) references countries(country_id)
 )CHARSET=UTF8;

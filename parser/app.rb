@@ -80,7 +80,6 @@ def nameParser href, db_name
   else
     "неизвестно"
   end
-
   if @countries[country_name: temp] == nil then
     DB.transaction do
       @countries.insert(:country_name => temp)
@@ -134,6 +133,10 @@ def actorsParser href, id
     actor = temp.split('/')[@name_index]
     role = page.css("#block_left > div > div.dub > div.actorInfo > div.info > div.role")[i+1].text
     puts role
+
+    if @actors[actor_id: actor] == nil then
+      nameParser(temp, "actors")
+    end
     DB.transaction do
       @actors_films.insert(
       :film_id => id,
@@ -155,6 +158,9 @@ end
   year = page.css("#infoTable .info tr:nth-child(1) a").text
   puts year
   rating = page.css("#block_rating div div a .rating_ball").text
+  unless rating =~ /\A\d+\Z/
+    rating = 0
+  end
   puts rating
   temp = @link + page.css("#infoTable .info tr:nth-child(4) a")[0]['href']
   director = temp.split('/')[@name_index]

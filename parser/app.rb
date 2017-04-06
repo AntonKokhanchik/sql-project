@@ -149,23 +149,29 @@ end
 
   name = page.css('#headerFilm h1').text
   puts name
+
   year = page.css('#infoTable .info tr:nth-child(1) a').text
   puts year
+
   rating = page.css('#block_rating div div a .rating_ball').text
   rating = 0 unless rating =~ /\A\d+\Z/
   puts rating
+
   temp = @link + page.css('#infoTable .info tr:nth-child(4) a')[0]['href']
   director = temp.split('/')[@name_index]
+  director = 0 if director.nil?
   nameParser(temp, 'directors') if @directors[director_id: director].nil?
   puts director
 
   temp = @link + page.css('#infoTable .info tr:nth-child(6) a:first-child')[0]['href']
   producer = temp.split('/')[@name_index]
+  producer = 0 if producer.nil?
   nameParser(temp, 'producers') if @producers[producer_id: producer].nil?
   puts producer
 
   temp = @link + page.css('#infoTable .info tr:nth-child(5) a:first-child')[0]['href']
   screenwriter = temp.split('/')[@name_index]
+  screenwriter = 0 if screenwriter.nil?
   if @screenwriters[screenwriter_id: screenwriter].nil?
     nameParser(temp, 'screenwriters')
   end

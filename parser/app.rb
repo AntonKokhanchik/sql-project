@@ -154,7 +154,7 @@ end
   puts year
 
   rating = page.css('#block_rating div div a .rating_ball').text
-  rating = 0 unless rating =~ /\A\d+\Z/
+  rating = 0 unless rating =~ /^\d(\.\d)?\d*$/
   puts rating
 
   temp = @link + page.css('#infoTable .info tr:nth-child(4) a')[0]['href']

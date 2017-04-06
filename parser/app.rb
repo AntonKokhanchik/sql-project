@@ -198,18 +198,20 @@ end
   end
   puts genre
 
-  DB.transaction do
-    @films.insert(
-      film_id: id,
-      film_name: name,
-      release_year: year,
-      rating: rating,
-      director_id: director,
-      producer_id: producer,
-      screenwriter_id: screenwriter,
-      country_id: country,
-      genre_id: genre
-    )
+  if @films[film_id: id].nil?
+    DB.transaction do
+      @films.insert(
+        film_id: id,
+        film_name: name,
+        release_year: year,
+        rating: rating,
+        director_id: director,
+        producer_id: producer,
+        screenwriter_id: screenwriter,
+        country_id: country,
+        genre_id: genre
+      )
+    end
   end
 
   sleep(rand(30..60))

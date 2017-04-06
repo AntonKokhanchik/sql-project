@@ -75,7 +75,7 @@ create table reviews(
 create table actors_films(
 	actor_id int unsigned,
     film_id int unsigned,
-    character_name varchar(20),
+    character_name varchar(40),
     foreign key (film_id) references films (film_id),
 	foreign key (actor_id) references actors (actor_id),
     primary key (actor_id, film_id)

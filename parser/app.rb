@@ -29,10 +29,8 @@ DB = Sequel.connect(
 @genre_inex = 5
 @link = "https://www.kinopoisk.ru"
 
-s = [1, 2, 4, 3] # случайный промежуток времени
-
 def nameParser href, db_name
-  sleep (rand(1..2))
+  sleep rand(10..30)
   page = Nokogiri::HTML(open(href))
   id = href.split('/')[@name_index]
 
@@ -218,9 +216,9 @@ end
     )
   end
 
-  sleep(rand(1..2))
   actorsParser(page_link + "/cast", id)
 
+  sleep(rand(30..60))
 
-  sleep(s[rand(s.length)])
+  sleep(rand((30..60)))
 end

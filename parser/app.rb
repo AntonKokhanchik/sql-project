@@ -130,16 +130,15 @@ def actorsParser href, id
   page = Nokogiri::HTML(open(href))
 
   5.times do |i|
-    puts page.css(".breadcrumbs__head")[0].text
-    puts page.css("#block_left > div > div.dub > div.actorInfo > div.info > div.role")[i+1].text
     temp = @link + page.css("#block_left > div > div.dub > div.actorInfo > div.info > div.name > a")[i+1]['href']
-    puts temp.split('/')[@name_index]
-    nameParser(temp, "actors")
+    actor = temp.split('/')[@name_index]
+    role = page.css("#block_left > div > div.dub > div.actorInfo > div.info > div.role")[i+1].text
+    puts role
     DB.transaction do
       @actors_films.insert(
       :film_id => id,
-      :actor_id => temp.split('/')[@name_index],
-      :character_name => page.css("#block_left > div > div.dub > div.actorInfo > div.info > div.role")[i+1].text
+      :actor_id => actor,
+      :character_name => role
       )
     end
   end
@@ -158,23 +157,26 @@ end
   rating = page.css("#block_rating div div a .rating_ball").text
   puts rating
   temp = @link + page.css("#infoTable .info tr:nth-child(4) a")[0]['href']
-  if @directors[director_id: temp.split('/')[@name_index]] == nil then
+  director = temp.split('/')[@name_index]
+  if @directors[director_id: director] == nil then
     nameParser(temp, "directors")
   end
-  director = temp.split('/')[@name_index]
   puts director
+
   temp = @link + page.css("#infoTable .info tr:nth-child(6) a:first-child")[0]['href']
-  if @producers[producer_id: temp.split('/')[@name_index]] == nil then
+  producer = temp.split('/')[@name_index]
+  if @producers[producer_id: producer] == nil then
     nameParser(temp, "producers")
   end
-  producer = temp.split('/')[@name_index]
   puts producer
+
   temp = @link + page.css("#infoTable .info tr:nth-child(5) a:first-child")[0]['href']
-  if @screenwriters[screenwriter_id: temp.split('/')[@name_index]] == nil then
+  screenwriter = temp.split('/')[@name_index]
+  if @screenwriters[screenwriter_id: screenwriter] == nil then
     nameParser(temp, "screenwriters")
   end
-  screenwriter = temp.split('/')[@name_index]
   puts screenwriter
+
   temp = page.css("#infoTable .info tr:nth-child(2) a:first-child")[0].text
   if @countries[country_name: temp] == nil then
     DB.transaction do
@@ -183,18 +185,18 @@ end
   end
   country = @countries.where(country_name: temp).first[:country_id]
   puts country
+
   temp = page.css("#infoTable .info tr:nth-child(11) a:first-child")[0]
-  puts temp.text
-  puts temp['href']
-  if @genres[genre_id: temp['href'].split('/')[@genre_inex]] != nil then
+  genre =  (@link + temp['href']).split('/')[@genre_inex]
+  if @genres[genre_id: genre] == nil then
     DB.transaction do
       @genres.insert(
-      :genre_id => @link + temp['href'].split('/')[@genre_inex],
+      :genre_id => genre,
       :genre_name => temp.text
       )
     end
   end
-  genre = temp['href'].split('/')[@genre_inex]
+  puts genre
 
   DB.transaction do
     @films.insert(

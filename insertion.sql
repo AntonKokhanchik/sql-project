@@ -1,26 +1,88 @@
 insert into cities values
-();
+("США"),
+("Новая Зеландия"),
+("Великобритания"),
+("Австралия"),
+("Франция"),
+("Канада"),
+("Мексика"),
+("Ирландия"),
+("Неизвестно");
 
 insert into  directors 
-(director_name, director_surname, birth_year, country_id)
+(director_id, director_name, director_surname, birth_year, country_id)
 values
-();
+(32383, "Питер", "Джексон", 1961, 2),
+(41477, "Кристофер", "Нолан", 1970, 3),
+(24817, "Крис", "Коламбус", 1958, 1),
+(27977, "Джеймс", "Кэмерон", 1954, 6),
+(563585, "Алехандро", "Иньярриту", 1963, 7);
 
 insert into producers 
-(producer_name, producer_surname, birth_year, country_id)
+(producer_id, producer_name, producer_surname, birth_year, country_id)
 values
-();
+(32383, "Питер", "Джексон", 1961, 2),
+(41477, "Кристофер", "Нолан", 1970, 3),
+(23449, "Дэвид", "Хейман", 1961, 3),
+(27977, "Джеймс", "Кэмерон", 1954, 6),
+(6784, "Стив", "Голин", 1955 , 1);
 
 insert into screenwriters 
-(screenwriter_name, screenwriter_surname, birth_year, country_id)
-values
-();
+(screenwriter_id, screenwriter_name, screenwriter_surname, birth_year, country_id) values
+(32385, "Фрэнсис", "Уолш", 1959, 2),
+(41477, "Кристофер", "Нолан", 1970, 3),
+(10093, "Стивен", "Кловз", 1960, 1),
+(27977, "Джеймс", "Кэмерон", 1954, 6),
+(734897, "Марк", "Смит", 0, 9);
 
-insert into genres (genre_name) values
-();
+insert into genres (genre_id, genre_name) values
+(5, "фентези"),
+(2, "Фантастика"),
+(8, "Драма"),
+(4, "Триллер");
 
-insert into films (film_name, release_year, rating, director_id, producer_id, screenwriter_id, country_id, genre_id) values
-();
+insert into films (film_id, film_name, release_year, rating, director_id, producer_id, screenwriter_id, country_id, genre_id) values
+(3498, "Властелин колец: Возвращение Короля", 2003, 8.611, 32383, 32383, 32385, 1, 5),
+(111543, "Темный рыцарь", 2008, 8.502, 41477, 41477, 41477, 1, 2),
+(689, "Гарри Поттер и философский камень", 2001, 8.193, 24817, 23449, 10093, 3, 5),
+(2213, "Титаник", 1997, 8.371, 27977, 27977, 27977, 1, 8),
+(522941, "Выживший", 2015, 7.814, 563585, 6784, 734897, 1, 4);
 
-insert into rewardings_Oscar (rewarding_year, actor_id, film_id
+insert into actors (actor_id, actor_name, actor_surname, birth_year, country_id) values
+(20287, "Элайджа", "Вуд", 1981, 1),
+(10779, "Вигго", "Мортенсен", 1958, 1),
+(28426, "Шон", "Эстин", 1971, 1),
+(21495, "Кристиан", "Бэйл", 1974, 3),
+(1183, "Хит", "Леджер", 1979, 4),
+(6752, "Аарон", "Экхарт", 1968, 1),
+(40778, "Дэниэл", "Рэдклифф", 1989, 3),
+(40780, "Руперт", "Гринт", 1988, 3),
+(40779, "Эмма", "Уотсон", 1990, 5),
+(37859, "Леонардо", "ДиКаприо", 1974, 1),
+(21709, "Кейт", "Уинслет", 1975, 3),
+(45019, "Билли", "Зейн", 1966, 1),
+(39984, "Том", "Харди", 1977 , 3),
+(671252, "Донал", "Глисон", 1983, 8);
+
+
+insert into actors_films (actor_id, film_id, character_name) values
+(20287, 3498, "Frodo"),
+(10779, 3498, "Aragorn"),
+(28426, 3498, "Sam"),
+(21495, 111543, "Bruce Wayne"),
+(1183, 111543, "Joker"),
+(6752, 111543, "Harvey Dent"),
+(40778, 689, "Harry Potter"),
+(40780, 689, "Ron Weasley"),
+(40779, 689, "Hermione Granger"),
+(37859, 2213, "Jack Dawson"),
+(21709, 2213, "Rose DeWitt Bukater"),
+(45019, 2213, "Cal Hockley"),
+(37859, 522941, "Hugh Glass"),
+(39984, 522941, "John Fitzgerald"),
+(671252, 522941, "Captain Andrew Henry");
+
+insert into rewardings_Oscar (rewarding_year, actor_id, film_id, nomination) values
+(2009, 1183, 111543, "Лучшая мужская роль второго плана"),
+(2016, 37859, 522941, "Лучшая мужская роль");
 

@@ -85,7 +85,7 @@ create table rewardings_Oscar(
 	rewarding_year int(4),
     actor_id int unsigned not null,
     film_id int unsigned not null,
-    nomination varchar(20),
+    nomination varchar(50),
     foreign key (actor_id) references actors (actor_id),
     foreign key (film_id) references films (film_id),
     primary key (rewarding_year, nomination)

@@ -1,4 +1,5 @@
-insert into countries (country_name) values
+insert ignore into countries 
+(country_name) values
 ("США"),
 ("Новая Зеландия"),
 ("Великобритания"),
@@ -13,7 +14,7 @@ insert into countries (country_name) values
 ("Ливан"),
 ("Нигерия");
 
-insert into  directors 
+insert ignore into  directors
 (director_id, director_name, director_surname, birth_year, country_id) values
 (32383, "Питер", "Джексон", 1961, 2),
 (41477, "Кристофер", "Нолан", 1970, 3),
@@ -29,7 +30,7 @@ insert into  directors
 (1190481, "Филлида", "Ллойд", 1957, 3),
 (10346, "Стивен", "Долдри", 1961, 3);
 
-insert into producers 
+insert ignore into producers 
 (producer_id, producer_name, producer_surname, birth_year, country_id) values
 (32383, "Питер", "Джексон", 1961, 2),
 (41477, "Кристофер", "Нолан", 1970, 3),
@@ -45,7 +46,7 @@ insert into producers
 (15755, "Дэмиэн", "Джонс", 1964, 3),
 (65747, "Донна", "Джильотти", 1995, 9);
 
-insert into screenwriters 
+insert ignore into screenwriters 
 (screenwriter_id, screenwriter_name, screenwriter_surname, birth_year, country_id) values
 (32385, "Фрэнсис", "Уолш", 1959, 2),
 (41477, "Кристофер", "Нолан", 1970, 3),
@@ -61,7 +62,8 @@ insert into screenwriters
 (1190793, "Эби", "Морган", 1968, 3),
 (36297, "Дэвид", "Хэа", 1947,3);
 
-insert into genres (genre_id, genre_name) values
+insert ignore into genres 
+(genre_id, genre_name) values
 (5, "фентези"),
 (2, "Фантастика"),
 (8, "Драма"),
@@ -70,7 +72,8 @@ insert into genres (genre_id, genre_name) values
 (10, "Приключения"),
 (22, "Биография");
 
-insert into films (film_id, film_name, release_year, rating, director_id, producer_id, screenwriter_id, country_id, genre_id) values
+insert ignore into films 
+(film_id, film_name, release_year, rating, director_id, producer_id, screenwriter_id, country_id, genre_id) values
 (3498, "Властелин колец: Возвращение Короля", 2003, 8.611, 32383, 32383, 32385, 1, 5),
 (111543, "Темный рыцарь", 2008, 8.502, 41477, 41477, 41477, 1, 2),
 (689, "Гарри Поттер и философский камень", 2001, 8.193, 24817, 23449, 10093, 3, 5),
@@ -87,7 +90,8 @@ insert into films (film_id, film_name, release_year, rating, director_id, produc
 (688, "Гарри Поттер и Тайная комната", 2002, 8.030, 24817, 23449, 10093, 3, 5),
 (325439, "Чтец", 2008, 7.935, 10346, 65747, 36297, 1, 8);
 
-insert into actors (actor_id, actor_name, actor_surname, birth_year, country_id) values
+insert ignore into actors 
+(actor_id, actor_name, actor_surname, birth_year, country_id) values
 (20287, "Элайджа", "Вуд", 1981, 1),
 (10779, "Вигго", "Мортенсен", 1958, 1),
 (28426, "Шон", "Эстин", 1971, 1),
@@ -127,7 +131,8 @@ insert into actors (actor_id, actor_name, actor_surname, birth_year, country_id)
 (459452, "Давид", "Кросс", 1990, 11);
 
 
-insert into actors_films (actor_id, film_id, character_name) values
+insert ignore into actors_films 
+(actor_id, film_id, character_name) values
 (20287, 3498, "Frodo"),
 (10779, 3498, "Aragorn"),
 (28426, 3498, "Sam"),
@@ -177,7 +182,8 @@ insert into actors_films (actor_id, film_id, character_name) values
 (459452, 325439, "Young Michael Berg");
 
 
-insert into rewardings_Oscar (rewarding_year, actor_id, film_id, nomination) values
+insert ignore into rewardings_Oscar 
+(rewarding_year, actor_id, film_id, nomination) values
 (2009, 1183, 111543, "Лучшая мужская роль второго плана"),
 (2016, 37859, 522941, "Лучшая мужская роль"),
 (1997, 24683, 16686, "Лучшая мужская роль"),

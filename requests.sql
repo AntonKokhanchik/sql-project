@@ -16,10 +16,9 @@ select film_name from films where film_id in
 
 # 3.	Отобрать все фильмы, где режиссер Алехандро Иньярриту и продюсер Стив Голин
 select film_name from films where director_id = 
-	(select director_id from directors where director_name = "Алехандро" and director_surname = "Иньярриту") 
+	(select director_id from directors where director_name = "Крис" and director_surname = "Коламбус") 
 and producer_id = 
-	(select producer_id from producers where producer_name = "Стив" and producer_surname = "Голин");
-# TODO: найти других продюсера и режисёра и добавить их совместный фильм
+	(select producer_id from producers where producer_name = "Дэвид" and producer_surname = "Хейман");
     
 # 4.	Отобрать все фильмы, выпущенные раньше 1990 года
 select film_name from films where release_year < 1990 order by release_year;
@@ -28,7 +27,6 @@ select film_name from films where release_year < 1990 order by release_year;
 select film_name from films where release_year < 2010 and director_id = 
 	(select director_id from directors 
     where director_name = "Гор" and director_surname = "Вербински");
-# TODO: добавить фильм Гора Вербински до 2010гalter
 
 # 6.	Отобрать все фильмы, фигурирующие в номинациях премии Оскар в 2000 году
 select film_name from films where film_id in 
@@ -40,7 +38,6 @@ select film_name from films where director_id =
 	(select director_id from directors where director_name = "Гор" and director_surname = "Вербински") 
 and film_id = any (select film_id from actors_films where actor_id = 
 	(select actor_id from actors where actor_name = "Джонни" and actor_surname = "Депп"));
-# TODO: добавить пиратов карибского моря
 
 # 8.	Отобрать все фильмы режиссера __, снятые в Англии
 select film_name from films where country_id = 

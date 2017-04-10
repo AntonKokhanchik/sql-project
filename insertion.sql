@@ -164,3 +164,35 @@ insert into rewardings_Oscar (rewarding_year, actor_id, film_id, nomination) val
 (1997, 24683, 16686, "Лучшая мужская роль"),
 (2012, 23100, 463647, "Лучшая женская роль");
 
+# дополнительно
+insert into directors 
+(director_id, director_name, director_surname, birth_year, country_id) values
+(10346, "Стивен", "Долдри", 1961, 3);
+
+insert into producers 
+(producer_id, producer_name, producer_surname, birth_year, country_id) values
+(65747, "Донна", "Джильотти", 1995, 9);
+
+insert into screenwriters 
+(screenwriter_id, screenwriter_name, screenwriter_surname, birth_year, country_id) values
+(36297, "Дэвид", "Хэа", 1947,3);
+
+insert into films 
+(film_id, film_name, release_year, rating, director_id, producer_id, screenwriter_id, country_id, genre_id) values
+(63991, "Пираты Карибского моря: Сундук мертвеца", 2006, 8.098, 30870, 10207, 30871, 1, 5),
+(688, "Гарри Поттер и Тайная комната", 2002, 8.030, 24817, 23449, 10093, 3, 5),
+(325439, "Чтец", 2008, 7.935, 10346, 65747, 36297, 1, 8);
+# TODO: добавить актёров фильма 'чтец'
+insert into actors 
+(actor_id, actor_name, actor_surname, birth_year, country_id) values
+(24302, "Кира", "Найтли", 1985, 3);
+
+insert into actors_films 
+(actor_id, film_id, character_name) values
+(6245, 63991, "Jack Sparrow"),
+(30875, 63991, "Will Turner"),
+(24302, 63991, "Elizabeth Swann"),
+(40778, 688, "Harry Potter"),
+(40780, 688, "Ron Weasley"),
+(40779, 688, "Hermione Granger");
+

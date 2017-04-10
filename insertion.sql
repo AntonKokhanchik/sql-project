@@ -1,4 +1,4 @@
-insert into cities values
+insert into countries (country_name) values
 ("США"),
 ("Новая Зеландия"),
 ("Великобритания"),

@@ -2,9 +2,12 @@
 select actor_name, actor_surname from actors natural join actors_films 
 where film_id = (select film_id from films where film_name = "Гарри Поттер и философский камень");
 
-select actor_name, actor_surname from actors natural join actors_films natural join films 
+select actor_name, actor_surname from actors inner join actors_films on(actors.actor_id = actors_films.actor_id) inner join films on(actors_films.film_id = films.film_id)
 where film_name = "Гарри Поттер и философский камень";
-# игнорирует Эмму Уотсон
+
+#select actor_name, actor_surname from actors natural join actors_films natural join films 
+#where film_name = "Гарри Поттер и философский камень";
+
 
 # 2.	Отобрать все фильмы актера Джонни Деппа
 select film_name from actors natural join actors_films natural join films 
@@ -67,4 +70,41 @@ and director_id =
     and director_surname = "") 
 and release_year between  and ;
 
+# 12. Отобрать всех актеров, получивших Оскар в 2011 году 
+select actor_name, actor_surname from actors where actor_id in (select actor_id from rewardings_Oscar where rewarding_year = 2009);
+
+# 13. Выбрать всех актеров, игравших в фильмах, сценаристом которых является __ 
+select actor_name, actor_surname from actors where actor_id in 
+	(select actor_id from actors_films where film_id in 
+		(select film_id from films where screenwriter_id = 
+			(select screenwriter_id from screenwriters where screenwriter_name = "" and screenwriter_surname = "")));
+
+# 14. Отобрать всех сценаристов, продюсеров и режиссеров "оскороносных" фильмов 
+select concat(director_name, " ", director_surname, ", режиссер") as разработчик from directors where director_id in 
+	(select director_id from films where film_id in 
+		(select film_id from rewardings_Oscar)) 
+union select concat(producer_name, " ", producer_surname, ", продюсер") from producers where producer_id in 
+	(select producer_id from films where film_id in 
+		(select film_id from rewardings_Oscar)) 
+union select concat(screenwriter_name, " ", screenwriter_surname, ", сценарист") from screenwriters where screenwriter_id in 
+	(select screenwriter_id from films where film_id in 
+		(select film_id from rewardings_Oscar));
+
+# 15. Показать режиссера и сценариста первого фильма, обеспечившего победу в номинации "Лучшая мужская роль" 
+select concat(director_name, " ", director_surname) as режиссер, concat(screenwriter_name, " ", screenwriter_surname) as сценарист from directors, screenwriters where director_id = 
+	(select director_id from films where film_id = 
+		(select film_id from rewardings_Oscar where nomination = "Лучшая мужская роль" order by rewarding_year limit 1)) and screenwriter_id = 
+			(select screenwriter_id from films where film_id = 
+				(select film_id from rewardings_Oscar where nomination = "Лучшая мужская роль" order by rewarding_year limit 1));
+  
+  
+select concat(director_name, " ", director_surname) as режиссер, concat(screenwriter_name, " ", screenwriter_surname) as сценарист from directors, screenwriters, rewardings_Oscar where 
+director_id = (select director_id from films where film_id = rewardings_Oscar.film_id) 
+    and screenwriter_id = (select screenwriter_id from films where film_id = rewardings_Oscar.film_id)
+		group by film_id having rewardings_Oscar.film_id = 
+			(select film_id from rewardings_Oscar where nomination = "Лучшая мужская роль" order by rewarding_year limit 1);
+
+# 16. Отобрать первые 10 фильмов, снятых на территории Новой Зеландии, за участие в которых были получены Оскары select film_name from films where film_id in (select film_id from rewardings_Oscar) and country_id = (select country_id from countries where country_name = “Новая Зеландия”);
+
+# 17. Вывести страну, на территории которой снято больше всего фильмов select country_name, (select count(film_id) from films as t2 where t2.country_id = t1.country_id ) as count from countries as t1;
 

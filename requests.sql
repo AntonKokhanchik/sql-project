@@ -14,7 +14,7 @@ select film_name from films where film_id in
 	(select film_id from actors_films where actor_id = 
 		(select actor_id from actors where actor_name = "Джонни" and actor_surname = "Депп"));
 
-# 3.	Отобрать все фильмы, где режиссер Алехандро Иньярриту и продюсер Стив Голин
+# 3.	Отобрать все фильмы, где режиссер Крис Коламбус и продюсер Дэвид Хейман
 select film_name from films where director_id = 
 	(select director_id from directors where director_name = "Крис" and director_surname = "Коламбус") 
 and producer_id = 
@@ -23,28 +23,26 @@ and producer_id =
 # 4.	Отобрать все фильмы, выпущенные раньше 1990 года
 select film_name from films where release_year < 1990 order by release_year;
 
-# 5.	Отобрать все фильмы, выпущенные режиссером __ до 2010 года
+# 5.	Отобрать все фильмы, выпущенные режиссером Гор Вербински до 2010 года
 select film_name from films where release_year < 2010 and director_id = 
 	(select director_id from directors 
     where director_name = "Гор" and director_surname = "Вербински");
 
-# 6.	Отобрать все фильмы, фигурирующие в номинациях премии Оскар в 2000 году
+# 6.	Отобрать все фильмы, фигурирующие в номинациях премии Оскар в 2009 году
 select film_name from films where film_id in 
 	(select film_id from rewardings_Oscar where rewarding_year = 2009);
-# TODO: добавить фильмы с оскаром 2009
 
-# 7.	Отобрать все фильмы с актером __, где режиссер __
+# 7.	Отобрать все фильмы с актером Джонни Депп, где режиссер Гор Вербински
 select film_name from films where director_id = 
 	(select director_id from directors where director_name = "Гор" and director_surname = "Вербински") 
 and film_id = any (select film_id from actors_films where actor_id = 
 	(select actor_id from actors where actor_name = "Джонни" and actor_surname = "Депп"));
 
-# 8.	Отобрать все фильмы режиссера __, снятые в Англии
+# 8.	Отобрать все фильмы режиссера Крис Коламбус, снятые в Англии
 select film_name from films where country_id = 
 	(select country_id from countries where country_name = "Великобритания") 
 and director_id = 
 	(select director_id from directors where director_name = "Крис" and director_surname = "Коламбус");
-# TODO: добавитьбольше Поттеров с одним режиссёром
 
 # 9.	Отобрать количество фильмов, снятых на территории США в период 1980-2017 год
 select count(film_id) from films where (release_year between 1995 and 2000) and country_id in 

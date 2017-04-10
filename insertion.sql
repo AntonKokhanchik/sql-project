@@ -26,7 +26,8 @@ insert into  directors
 (30966, "Роберт", "Родригес", 1968, 1),
 (23330, "Лана", "Вачовски", 1965, 1),
 (22260, "Стивен", "Спилберг", 1946, 1),
-(1190481, "Филлида", "Ллойд", 1957, 3);
+(1190481, "Филлида", "Ллойд", 1957, 3),
+(10346, "Стивен", "Долдри", 1961, 3);
 
 insert into producers 
 (producer_id, producer_name, producer_surname, birth_year, country_id) values
@@ -41,7 +42,8 @@ insert into producers
 (30966, "Роберт", "Родригес", 1968, 1),
 (1790, "Джоэл", "Силвер", 1952, 1),
 (20397, "Фрэнк", "Маршалл", 1946, 1),
-(15755, "Дэмиэн", "Джонс", 1964, 3);
+(15755, "Дэмиэн", "Джонс", 1964, 3),
+(65747, "Донна", "Джильотти", 1995, 9);
 
 insert into screenwriters 
 (screenwriter_id, screenwriter_name, screenwriter_surname, birth_year, country_id) values
@@ -56,7 +58,8 @@ insert into screenwriters
 (30966, "Роберт", "Родригес", 1968, 1),
 (23329, "Лилли", "Вачовски", 1967, 1),
 (26537, "Лоуренс", "Кэздан", 1949, 1),
-(1190793, "Эби", "Морган", 1968, 3);
+(1190793, "Эби", "Морган", 1968, 3),
+(36297, "Дэвид", "Хэа", 1947,3);
 
 insert into genres (genre_id, genre_name) values
 (5, "фентези"),
@@ -79,7 +82,10 @@ insert into films (film_id, film_name, release_year, rating, director_id, produc
 (477764, "Дети шпионов 4D", 2011, 3.695, 30966, 30966, 30966, 1, 2),
 (301, "Матрица", 1999, 8.492, 23330, 1790, 23329, 1, 2),
 (339, "Индиана Джонс: В поисках утраченного ковчега", 1981, 8.007, 22260, 20397, 26537, 1, 10),
-(463647, "Железная леди", 2011, 7.013, 1190481, 15755, 1190793, 3, 22);
+(463647, "Железная леди", 2011, 7.013, 1190481, 15755, 1190793, 3, 22),
+(63991, "Пираты Карибского моря: Сундук мертвеца", 2006, 8.098, 30870, 10207, 30871, 1, 5),
+(688, "Гарри Поттер и Тайная комната", 2002, 8.030, 24817, 23449, 10093, 3, 5),
+(325439, "Чтец", 2008, 7.935, 10346, 65747, 36297, 1, 8);
 
 insert into actors (actor_id, actor_name, actor_surname, birth_year, country_id) values
 (20287, "Элайджа", "Вуд", 1981, 1),
@@ -92,11 +98,11 @@ insert into actors (actor_id, actor_name, actor_surname, birth_year, country_id)
 (40780, "Руперт", "Гринт", 1988, 3),
 (40779, "Эмма", "Уотсон", 1990, 5),
 (37859, "Леонардо", "ДиКаприо", 1974, 1),
+(16653, "Роберт", "Инглунд", 1947, 1),
 (21709, "Кейт", "Уинслет", 1975, 3),
 (45019, "Билли", "Зейн", 1966, 1),
 (39984, "Том", "Харди", 1977 , 3),
 (671252, "Донал", "Глисон", 1983, 8),
-(16653, "Роберт", "Инглунд", 1947, 1),
 (94877, "Хэзер", "Лэнгенкэмп", 1964, 1),
 (6245, "Джонни", "Депп", 1963, 1),
 (24683, "Джеффри", "Раш", 1951, 4),
@@ -115,7 +121,10 @@ insert into actors (actor_id, actor_name, actor_surname, birth_year, country_id)
 (141431, "Рональд", "Лейси", 1935, 3),
 (23100, "Мэрил", "Стрип", 1949, 1),
 (38704, "Джим", "Бродбент", 1949, 3),
-(147467, "Сьюзэн", "Браун", 1946, 3);
+(147467, "Сьюзэн", "Браун", 1946, 3),
+(24302, "Кира", "Найтли", 1985, 3),
+(22670, "Рэйф", "Файнс", 1962, 3),
+(459452, "Давид", "Кросс", 1990, 11);
 
 
 insert into actors_films (actor_id, film_id, character_name) values
@@ -156,43 +165,21 @@ insert into actors_films (actor_id, film_id, character_name) values
 (141431, 339, "Major Arnold Toht"),
 (23100, 463647, "Margaret Thatcher"),
 (38704, 463647, "Denis Thatcher"),
-(147467, 463647, "June");
-
-insert into rewardings_Oscar (rewarding_year, actor_id, film_id, nomination) values
-(2009, 1183, 111543, "Лучшая мужская роль второго плана"),
-(2016, 37859, 522941, "Лучшая мужская роль"),
-(1997, 24683, 16686, "Лучшая мужская роль"),
-(2012, 23100, 463647, "Лучшая женская роль");
-
-# дополнительно
-insert into directors 
-(director_id, director_name, director_surname, birth_year, country_id) values
-(10346, "Стивен", "Долдри", 1961, 3);
-
-insert into producers 
-(producer_id, producer_name, producer_surname, birth_year, country_id) values
-(65747, "Донна", "Джильотти", 1995, 9);
-
-insert into screenwriters 
-(screenwriter_id, screenwriter_name, screenwriter_surname, birth_year, country_id) values
-(36297, "Дэвид", "Хэа", 1947,3);
-
-insert into films 
-(film_id, film_name, release_year, rating, director_id, producer_id, screenwriter_id, country_id, genre_id) values
-(63991, "Пираты Карибского моря: Сундук мертвеца", 2006, 8.098, 30870, 10207, 30871, 1, 5),
-(688, "Гарри Поттер и Тайная комната", 2002, 8.030, 24817, 23449, 10093, 3, 5),
-(325439, "Чтец", 2008, 7.935, 10346, 65747, 36297, 1, 8);
-# TODO: добавить актёров фильма 'чтец'
-insert into actors 
-(actor_id, actor_name, actor_surname, birth_year, country_id) values
-(24302, "Кира", "Найтли", 1985, 3);
-
-insert into actors_films 
-(actor_id, film_id, character_name) values
+(147467, 463647, "June"),
 (6245, 63991, "Jack Sparrow"),
 (30875, 63991, "Will Turner"),
 (24302, 63991, "Elizabeth Swann"),
 (40778, 688, "Harry Potter"),
 (40780, 688, "Ron Weasley"),
-(40779, 688, "Hermione Granger");
+(40779, 688, "Hermione Granger"),
+(22670, 325439, "Michael Berg"),
+(21709, 325439, "Hanna Schmitz"),
+(459452, 325439, "Young Michael Berg");
 
+
+insert into rewardings_Oscar (rewarding_year, actor_id, film_id, nomination) values
+(2009, 1183, 111543, "Лучшая мужская роль второго плана"),
+(2016, 37859, 522941, "Лучшая мужская роль"),
+(1997, 24683, 16686, "Лучшая мужская роль"),
+(2012, 23100, 463647, "Лучшая женская роль"),
+(2009, 21709, 325439, "Лучшая женская роль");

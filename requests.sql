@@ -1,3 +1,4 @@
+# TODO: 10, 11, 15+
 # 1.	Отобрать всех актеров, играющих в фильме "Гарри Поттер и философский камень"
 select actor_name, actor_surname from actors natural join actors_films 
 where film_id = (select film_id from films where film_name = "Гарри Поттер и философский камень");
@@ -65,7 +66,7 @@ and director_id =
     and director_surname = "") 
 and release_year between  and ;
 
-# 12. Отобрать всех актеров, получивших Оскар в 2011 году 
+# 12. Отобрать всех актеров, получивших Оскар в 2009 году 
 select actor_name, actor_surname from actors where actor_id in (select actor_id from rewardings_Oscar where rewarding_year = 2009);
 
 # 13. Выбрать всех актеров, игравших в фильмах, сценаристом которых является __ 

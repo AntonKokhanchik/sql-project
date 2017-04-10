@@ -74,7 +74,7 @@ create table if not exists films(
 )CHARSET=UTF8;
 
 create table if not exists reviews(
-	review_id int unsigned primary key,
+	review_id int unsigned primary key auto_increment,
     review_name varchar(30) not null,
     author_name varchar(30) not null,
     film_id int unsigned not null,

@@ -1,4 +1,4 @@
-# TODO: 10, 11, 15+
+# TODO: 10, 11, 13, 15+
 # 1.	Отобрать всех актеров, играющих в фильме "Гарри Поттер и философский камень"
 select actor_name, actor_surname from actors natural join actors_films 
 where film_id = (select film_id from films where film_name = "Гарри Поттер и философский камень");

@@ -60,7 +60,7 @@ create table if not exists films(
 	film_id int unsigned primary key,
     film_name varchar(50) not null,
     release_year int(4) not null,
-    rating tinyint,
+    rating float,
 	director_id int unsigned not null,
 	producer_id int unsigned,
 	screenwriter_id int unsigned,

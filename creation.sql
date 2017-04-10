@@ -1,9 +1,20 @@
-create table countries(
+drop table if exists actors_films;
+drop table if exists rewardings_oscar;
+drop table if exists reviews;
+drop table if exists films;
+drop table if exists actors;
+drop table if exists genres;
+drop table if exists directors;
+drop table if exists producers;
+drop table if exists screenwriters;
+drop table if exists countries;
+
+create table if not exists countries(
 	country_id tinyint unsigned primary key auto_increment,
     country_name varchar(20) not null
 )CHARACTER SET=UTF8;
 
-create table actors(
+create table if not exists actors(
 	actor_id int unsigned primary key,
     actor_name varchar(30) not null,
     actor_surname varchar(20) not null,
@@ -12,13 +23,13 @@ create table actors(
     foreign key (country_id) references countries(country_id)
 )CHARSET=UTF8;
 
-create table genres(
+create table if not exists genres(
 	genre_id tinyint unsigned primary key,
     genre_name varchar(20) not null,
     description varchar(255)
 )CHARSET=UTF8;
 
-create table directors(
+create table if not exists directors(
 	director_id int unsigned primary key,
     director_name varchar(30) not null,
     director_surname varchar(20) not null,
@@ -27,7 +38,7 @@ create table directors(
     foreign key (country_id) references countries(country_id)
 )CHARSET=UTF8;
 
-create table producers(
+create table if not exists producers(
 	producer_id int unsigned primary key,
     producer_name varchar(30) not null,
     producer_surname varchar(20) not null,
@@ -36,7 +47,7 @@ create table producers(
     foreign key (country_id) references countries(country_id)
 )CHARSET=UTF8;
 
-create table screenwriters(
+create table if not exists screenwriters(
 	screenwriter_id int unsigned primary key,
     screenwriter_name varchar(30) not null,
     screenwriter_surname varchar(20) not null,
@@ -45,7 +56,7 @@ create table screenwriters(
     foreign key (country_id) references countries(country_id)
 )CHARSET=UTF8;
 
-create table films(
+create table if not exists films(
 	film_id int unsigned primary key,
     film_name varchar(50) not null,
     release_year int(4) not null,
@@ -62,7 +73,7 @@ create table films(
     foreign key (genre_id) references genres (genre_id)
 )CHARSET=UTF8;
 
-create table reviews(
+create table if not exists reviews(
 	review_id int unsigned primary key,
     review_name varchar(30) not null,
     author_name varchar(30) not null,
@@ -72,7 +83,7 @@ create table reviews(
     foreign key (film_id) references films (film_id)
 )CHARSET=UTF8;
 
-create table actors_films(
+create table if not exists actors_films(
 	actor_id int unsigned,
     film_id int unsigned,
     character_name varchar(40),
@@ -81,7 +92,7 @@ create table actors_films(
     primary key (actor_id, film_id)
 )CHARSET=UTF8;
 
-create table rewardings_Oscar(
+create table if not exists rewardings_Oscar(
 	rewarding_year int(4),
     actor_id int unsigned not null,
     film_id int unsigned not null,

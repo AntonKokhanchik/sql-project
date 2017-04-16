@@ -106,6 +106,13 @@ select film_name from films where film_id in
 		(select country_id from countries where country_name = "США");
 
 # 17. Вывести страну, на территории которой снято больше всего фильмов 
-select country_name, max((select count(film_id) from films as t2 where t2.country_id = t1.country_id )) as count_ 
-	from countries as t1 ;
+select country_name, max((select count(film_id) as count_films from films as t2 where t2.country_id = t1.country_id )) from countries as t1;
 
+# 18. Вывести "провальные" фильмы актера Джонни Деппа (фильмы, рейтинг которых ниже среднего)
+select film_name from films where film_id in 
+	(select film_id from actors_films where actor_id = 
+		(select actor_id from actors where actor_name = "Джонни" and actor_surname = "Депп")) group by rating 
+	having rating < (select avg(rating) from films);
+
+# 19. Показать режиссера, продюсера и название первого фильма, обеспечившего победу в номинации "Лучшая женская роль" актрисе Мэрил	Стрип
+select concat(director_name, " ", director_surname) as режиссер, concat(screenwriter_name, " ", screenwriter_surname) as сценарист

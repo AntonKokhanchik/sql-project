@@ -64,7 +64,7 @@ insert ignore into screenwriters
 
 insert ignore into genres 
 (genre_id, genre_name) values
-(5, "фентези"),
+(5, "Фентези"),
 (2, "Фантастика"),
 (8, "Драма"),
 (4, "Триллер"),

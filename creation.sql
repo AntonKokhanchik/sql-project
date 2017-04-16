@@ -11,7 +11,7 @@ drop table if exists countries;
 
 create table if not exists countries(
 	country_id tinyint unsigned primary key auto_increment,
-    country_name varchar(20) not null
+    country_name varchar(20) not null unique
 )CHARACTER SET=UTF8;
 
 create table if not exists actors(

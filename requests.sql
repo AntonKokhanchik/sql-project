@@ -1,4 +1,4 @@
-# TODO: 10, 11, 13, 15+
+# TODO: 19+
 # 1.	Отобрать всех актеров, играющих в фильме "Гарри Поттер и философский камень"
 select actor_name, actor_surname from actors natural join actors_films 
 where film_id = (select film_id from films where film_name = "Гарри Поттер и философский камень");
@@ -53,27 +53,26 @@ select count(film_id) from films where (release_year between 1995 and 2000) and 
 	(select country_id from countries where country_name = "США");
 
 # 10.	 Отобрать все рецензии о фильме __ от автора __
-select review_author, review_name, review_text from reviews 
-where author_name = "" and film_id = 
-	(select film_id from films where film_name = "");
-# не проверено TODO: добавить рецензии
+select * from reviews 
+where author_name = "Jesse Pinkman" and film_id = 
+	(select film_id from films where film_name = "Властелин колец: Возвращение Короля");
 
-# 11.	 Отобрать все фильмы жанра __ от режиссера __ в период __
+# 11.	 Отобрать все фильмы жанра Фентези от режиссера Горa Вербински в период 2002-2010
 select film_name from films where genre_id = 
-	(select genre_id from genres where genre_name = "") 
+	(select genre_id from genres where genre_name = "Фентези") 
 and director_id = 
-	(select director_id from directors where director_name = "" 
-    and director_surname = "") 
-and release_year between  and ;
+	(select director_id from directors where director_name = "Гор"
+    and director_surname = "Вербински") 
+and release_year between 2002 and 2010;
 
 # 12. Отобрать всех актеров, получивших Оскар в 2009 году 
 select actor_name, actor_surname from actors where actor_id in (select actor_id from rewardings_Oscar where rewarding_year = 2009);
 
-# 13. Выбрать всех актеров, игравших в фильмах, сценаристом которых является __ 
+# 13. Выбрать всех актеров, игравших в фильмах, сценаристом которых является Тед Эллиот
 select actor_name, actor_surname from actors where actor_id in 
 	(select actor_id from actors_films where film_id in 
 		(select film_id from films where screenwriter_id = 
-			(select screenwriter_id from screenwriters where screenwriter_name = "" and screenwriter_surname = "")));
+			(select screenwriter_id from screenwriters where screenwriter_name = "Тед" and screenwriter_surname = "Эллиот")));
 
 # 14. Отобрать всех сценаристов, продюсеров и режиссеров "оскороносных" фильмов 
 select concat(director_name, " ", director_surname, ", режиссер") as разработчик from directors where director_id in 

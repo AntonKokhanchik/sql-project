@@ -100,7 +100,12 @@ director_id = (select director_id from films where film_id = rewardings_Oscar.fi
 		group by film_id having rewardings_Oscar.film_id = 
 			(select film_id from rewardings_Oscar where nomination = "Лучшая мужская роль" order by rewarding_year limit 1);
 
-# 16. Отобрать первые 10 фильмов, снятых на территории Новой Зеландии, за участие в которых были получены Оскары select film_name from films where film_id in (select film_id from rewardings_Oscar) and country_id = (select country_id from countries where country_name = “Новая Зеландия”);
+# 16. Отобрать первые 10 фильмов, снятых на территории США, за участие в которых были получены Оскары 
+select film_name from films where film_id in 
+	(select film_id from rewardings_Oscar) and country_id = 
+		(select country_id from countries where country_name = "США");
 
-# 17. Вывести страну, на территории которой снято больше всего фильмов select country_name, (select count(film_id) from films as t2 where t2.country_id = t1.country_id ) as count from countries as t1;
+# 17. Вывести страну, на территории которой снято больше всего фильмов 
+select country_name, max((select count(film_id) from films as t2 where t2.country_id = t1.country_id )) as count_ 
+	from countries as t1 ;
 

@@ -75,7 +75,7 @@ create table if not exists films(
 
 create table if not exists reviews(
 	review_id int unsigned primary key auto_increment,
-    review_name varchar(30) not null,
+    review_name varchar(50) not null,
     author_name varchar(30) not null,
     film_id int unsigned not null,
 	author_mark tinyint,

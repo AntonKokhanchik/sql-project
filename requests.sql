@@ -1,9 +1,5 @@
 # TODO: 30.2+
-#данные: 
-#	больше рецензий о ВКВК
-#
-#	больше актеров из Германии, игравших в фильмах, снятых в США
-#
+#данные: -
 # 1.	Отобрать всех актеров, играющих в фильме "Гарри Поттер и философский камень"
 select actor_name, actor_surname from actors natural join actors_films 
 where film_id = (select film_id from films where film_name = "Гарри Поттер и философский камень");

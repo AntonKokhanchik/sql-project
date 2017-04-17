@@ -1,9 +1,6 @@
 # TODO: 30.2+
 #данные: 
-#	больше "провальных" фильмов Джонни Деппа
-#	больше наград для Мэрил Стрип
 #	больше рецензий о ВКВК
-#	больше фильмов, сценаристом которых является Тед Эллиот
 #	больше актеров из Германии, игравших в фильмах, снятых в США
 #
 # 1.	Отобрать всех актеров, играющих в фильме "Гарри Поттер и философский камень"
@@ -158,4 +155,30 @@ select concat(actor_name, " ", actor_surname) from actors as t1 where
 		exists(select * from films as t3 where t2.film_id = t3.film_id and rating > (select avg(rating) from films)));
         
 # 30. Вывести все жанры в порядке убывания их популярности у режиссеров (по частоте использования)
-select genre_name as жанр, (select count(genre_id) from films as t1 group by genre_id having t1.genre_id = t2.genre_id) as частота from genres as t2 group by genre_id order by частота desc;
+select genre_name as жанр, (select count(genre_id) from films as t1 group by genre_id having t1.genre_id = t2.genre_id) as частота 
+from genres as t2 group by genre_id order by частота desc;
+
+select genre_name as жанр, count(genre_id) as частота from genres natural join films group by genre_id order by частота desc;
+
+# 31. Выбрать все фильмы, в которых играли Джонни Депп и _Орландо Блум, и жанр - фэнтези
+select film_name from films as t1 where exists(
+	select * from actors_films as t2 where exists(
+		select * from actors as t3 where concat(actor_name, " ", actor_surname) = "Джонни Депп" and t3.actor_id = t2.actor_id
+	)
+	and t2.film_id = t1.film_id and film_id in (
+		select film_id from actors_films as t4 where exists(
+			select * from actors as t5 where concat(actor_name, " ", actor_surname) = "Орландо Блум" and t5.actor_id = t4.actor_id
+		) group by film_id
+	)
+) and exists(select * from genres as t6 where t6.genre_id = t1.genre_id);
+
+# 32. Вывести все страны, в которых снимались "оскороносные" фильмы
+select country_name from countries as t1 where exists(
+	select * from films as t2 where exists(
+		select * from rewardings_oscar as t3 where t3.film_id = t2.film_id
+	) and t2.country_id = t1.country_id
+);
+
+select distinct country_name from countries natural join films as t2 where exists(
+	select * from rewardings_oscar as t3 where t3.film_id = t2.film_id
+);

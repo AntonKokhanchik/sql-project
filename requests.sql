@@ -1,9 +1,6 @@
-# TODO: 36, 39+
+# TODO: 36, 40
 #		+
-#данные: 
-# 		больше английского фэнтези (для запроса35)
-#		добавить автора статей, которые всегда ставят оценки ниже рейтинга фильма (несколько его статей с низким рейтингом)
-#		добавить авторов статей, которые всегда ставят оценки ниже рейтинга фильма (несколько их статей с низким рейтингом)
+#данные:
 #		добавить актеров, которые являются режиссерами или продюсерами в любых фильмах (т.е., не обязательно в том же, где они играют)
 #		добавить какому-нибудь режисеру, за фильм которого кто-то получил Оскар, ещё оскороносный фильм
 
@@ -221,6 +218,11 @@ select country_name, (select count(film_id) from films as t3 where t1.country_id
 select country_name, count(film_id) as количество_фильмов from countries as t1 natural join films where if(country_id in (select country_id from films as t2 where t1.country_id = t2.country_id), true, false) group by country_id order by количество_фильмов desc;
 
 # 39. Вывести режиссеров в порядке убывания количества наград, полученных актерами за съемки в их фильмах
+select	concat(director_name, " ", director_surname) as режиссер, 
+		(select count(nomination) from rewardings_oscar as t1 where 
+			exists(select * from films as t2 where t1.film_id = t2.film_id and t3.director_id = t2.director_id)) as количество_наград
+from directors as t3 order by количество_наград desc;
+
 
 # 40. Вывести всех актеров, которые являются ещё и режиссерами или продюсерами (возможно в других фильмах)
 #select concat(actor_name, " ", actor_surname) as актёр from actors as t1 where if(

@@ -1,9 +1,6 @@
-# TODO: 36, 40
 # TODO: 36
 #		+
 #данные:
-#		добавить актеров, которые являются режиссерами или продюсерами в любых фильмах (т.е., не обязательно в том же, где они играют)
-#		добавить какому-нибудь режисеру, за фильм которого кто-то получил Оскар, ещё оскороносный фильм
 #		добавить какому-нибудь режисеру, за фильм которого кто-то получил Оскар, ещё оскороносный фильм (для запроса 39)
 
 # 1.	Отобрать всех актеров, играющих в фильме "Гарри Поттер и философский камень"
@@ -227,6 +224,10 @@ from directors as t3 order by количество_наград desc;
 
 
 # 40. Вывести всех актеров, которые являются ещё и режиссерами или продюсерами (возможно в других фильмах)
-#select concat(actor_name, " ", actor_surname) as актёр from actors as t1 where if(
-#	exists(select * from directors as t2 where concat(actor_name, " ", actor_surname) = concat(director_name, " ", director_surname)), true,false
-#);
+select concat(actor_name, " ", actor_surname, ", режиссёр") as актёр from actors as t1 where 
+	if(exists(select * from directors as t2 where concat(actor_name, " ", actor_surname) = concat(director_name, " ", director_surname)), true,false)
+union select concat(actor_name, " ", actor_surname, ", продюсер") as актёр from actors as t1 where 
+    if(exists(select * from producers as t2 where concat(actor_name, " ", actor_surname) = concat(producer_name, " ", producer_surname)), true,false);
+    
+    
+    

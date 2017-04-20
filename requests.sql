@@ -1,7 +1,4 @@
 # TODO: 36
-#		+
-#данные:
-#		добавить какому-нибудь режисеру, за фильм которого кто-то получил Оскар, ещё оскороносный фильм (для запроса 39)
 
 # 1.	Отобрать всех актеров, играющих в фильме "Гарри Поттер и философский камень"
 select actor_name, actor_surname from actors natural join actors_films 
@@ -200,9 +197,13 @@ select distinct if(country_id = (select country_id from films where film_name = 
 		  and genre_id = (select genre_id from films where film_name = "Гарри Поттер и Тайная комната"), film_name, null) as фильмы from films;
 
 # 36. Вывести для каждого актера из списка его фильмов тот, у которого наибольший рейтинг
-#select	(select concat(actor_name, " ", actor_surname) as актёр from actors as t2 where t2.actor_id = t1.actor_id),
-#		(select film_name from films as t3 where t3.film_id = t1.film_id and rating = max(rating))
-#from actors_films as t1;
+select	(select concat(actor_name, " ", actor_surname) from actors as t2 where t2.actor_id = t1.actor_id) as актёр ,
+		(select film_name from films as t3 where t3.film_id = t1.film_id and rating = max((select max(rating) from films as t4 where t4.film_id = t1.film_id))) as фильм,
+        (select rating from films as t5 where t5.film_id = t1.film_id) as рейтинг
+from actors_films as t1 group by actor_id order by фильм;
+
+#select film_name from films where rating = max((select max(rating) from films));
+#select max(rating) from films; 
 
 # 37. Вывести авторов статей, которые всегда ставят оценки ниже рейтинга фильма
 select distinct author_name from reviews as t1 where not exists(

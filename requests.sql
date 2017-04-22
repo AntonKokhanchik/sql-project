@@ -1,8 +1,3 @@
-# TODO: 36
-#		+
-#данные:
-#		добавить какому-нибудь режисеру, за фильм которого кто-то получил Оскар, ещё оскороносный фильм (для запроса 39)
-
 # 1.	Отобрать всех актеров, играющих в фильме "Гарри Поттер и философский камень"
 select actor_name, actor_surname from actors natural join actors_films 
 where film_id = (select film_id from films where film_name = "Гарри Поттер и философский камень");
@@ -200,9 +195,10 @@ select distinct if(country_id = (select country_id from films where film_name = 
 		  and genre_id = (select genre_id from films where film_name = "Гарри Поттер и Тайная комната"), film_name, null) as фильмы from films;
 
 # 36. Вывести для каждого актера из списка его фильмов тот, у которого наибольший рейтинг
-#select	(select concat(actor_name, " ", actor_surname) as актёр from actors as t2 where t2.actor_id = t1.actor_id),
-#		(select film_name from films as t3 where t3.film_id = t1.film_id and rating = max(rating))
-#from actors_films as t1;
+select concat(actor_name, " ", actor_surname) as актёр, film_name, max(rating), character_name 
+from actors inner join actors_films as t1 on(actors.actor_id = t1.actor_id) 
+	inner join films on(t1.film_id = films.film_id)
+group by t1.actor_id;  
 
 # 37. Вывести авторов статей, которые всегда ставят оценки ниже рейтинга фильма
 select distinct author_name from reviews as t1 where not exists(
@@ -222,12 +218,9 @@ select	concat(director_name, " ", director_surname) as режиссер,
 			exists(select * from films as t2 where t1.film_id = t2.film_id and t3.director_id = t2.director_id)) as количество_наград
 from directors as t3 order by количество_наград desc;
 
-
 # 40. Вывести всех актеров, которые являются ещё и режиссерами или продюсерами (возможно в других фильмах)
 select concat(actor_name, " ", actor_surname, ", режиссёр") as актёр from actors as t1 where 
 	if(exists(select * from directors as t2 where concat(actor_name, " ", actor_surname) = concat(director_name, " ", director_surname)), true,false)
 union select concat(actor_name, " ", actor_surname, ", продюсер") as актёр from actors as t1 where 
     if(exists(select * from producers as t2 where concat(actor_name, " ", actor_surname) = concat(producer_name, " ", producer_surname)), true,false);
-    
-    
-    
+   

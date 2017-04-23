@@ -1,5 +1,3 @@
-#TODO: 21 запрос выдает не всех актеров, а только тех. кто получил награду. а нам нужны все. даже если в столбце "количество наград" стоит 0
-
 # 1.	Отобрать всех актеров, играющих в фильме "Гарри Поттер и философский камень"
 select actor_name, actor_surname from actors natural join actors_films 
 where film_id = (select film_id from films where film_name = "Гарри Поттер и философский камень");
@@ -121,9 +119,10 @@ select nomination, rewarding_year, film_name from rewardings_Oscar as t1 natural
 	exists(select * from actors_films where actors_films.film_id = t1.film_id and 
 		exists(select * from actors where concat(actor_name, " ", actor_surname) = "Мэрил Стрип" and actors.actor_id = actors_films.actor_id));
 
-# 21. Вывести всех актеров в порядке возрастания успешности (имеется в виду количество полученных наград)
-select concat(actor_name, " ", actor_surname) as актёр, count(nomination) as количество_наград 
-	from actors natural join rewardings_oscar group by actor_id order by количество_наград;
+# 21. Вывести всех актеров в порядке убывания успешности (имеется в виду количество полученных наград) 
+select concat(actor_name, " ", actor_surname) as актёр, 
+(select count(nomination) from rewardings_oscar where actor_id = t1.actor_id) as наград 
+from actors t1 order by наград desc;
     
 # 22. Вывести 4 наиболее востребованных актеров за 2000-2005 годы (тех, кто снимался в большем количестве фильмов)
 select concat(actor_name, " ", actor_surname) as актёр, count(film_id) as количество_фильмов from actors natural join actors_films as t1

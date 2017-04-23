@@ -1,3 +1,5 @@
+#TODO: 21 запрос выдает не всех актеров, а только тех. кто получил награду. а нам нужны все. даже если в столбце "количество наград" стоит 0
+
 # 1.	Отобрать всех актеров, играющих в фильме "Гарри Поттер и философский камень"
 select actor_name, actor_surname from actors natural join actors_films 
 where film_id = (select film_id from films where film_name = "Гарри Поттер и философский камень");
@@ -100,8 +102,7 @@ select film_name from films where film_id in
 
 # 17. Вывести страну, на территории которой снято больше всего фильмов 
 select country_name, max((select count(film_id) from films as t2 where t2.country_id = t1.country_id )) as количество
-from countries as t1;
-
+from countries as t1 group by country_id limit 1;
 
 # 18. Вывести "провальные" фильмы актера Джонни Деппа (фильмы, рейтинг которых ниже среднего)
 select film_name from films where film_id in 
@@ -183,7 +184,7 @@ select distinct country_name from countries natural join films as t2 where exist
 );
 
 # 33. Вывести все рецензии, оценка фильма от автора у которых выше рейтинга самого фильма
-select * from reviews as t1 where author_mark > (
+select review_id, review_name, author_name, author_mark, film_id from reviews as t1 where author_mark > (
 	select rating from films as t2 where t1.film_id = t2.film_id
 );
 

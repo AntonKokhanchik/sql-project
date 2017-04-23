@@ -99,7 +99,8 @@ select film_name from films where film_id in
 		(select country_id from countries where country_name = "США") order by release_year limit 2;
 
 # 17. Вывести страну, на территории которой снято больше всего фильмов 
-select country_name, max((select count(film_id) as count_films from films as t2 where t2.country_id = t1.country_id )) from countries as t1;
+select country_name, max((select count(film_id) from films as t2 where t2.country_id = t1.country_id )) as количество
+from countries as t1 group by country_id limit 1;
 
 # 18. Вывести "провальные" фильмы актера Джонни Деппа (фильмы, рейтинг которых ниже среднего)
 select film_name from films where film_id in 
@@ -118,9 +119,10 @@ select nomination, rewarding_year, film_name from rewardings_Oscar as t1 natural
 	exists(select * from actors_films where actors_films.film_id = t1.film_id and 
 		exists(select * from actors where concat(actor_name, " ", actor_surname) = "Мэрил Стрип" and actors.actor_id = actors_films.actor_id));
 
-# 21. Вывести всех актеров в порядке возрастания успешности (имеется в виду количество полученных наград)
-select concat(actor_name, " ", actor_surname) as актёр, count(nomination) as количество_наград 
-	from actors as t1 natural join rewardings_oscar group by actor_id order by количество_наград;
+# 21. Вывести всех актеров в порядке убывания успешности (имеется в виду количество полученных наград) 
+select concat(actor_name, " ", actor_surname) as актёр, 
+(select count(nomination) from rewardings_oscar where actor_id = t1.actor_id) as наград 
+from actors t1 order by наград desc;
     
 # 22. Вывести 4 наиболее востребованных актеров за 2000-2005 годы (тех, кто снимался в большем количестве фильмов)
 select concat(actor_name, " ", actor_surname) as актёр, count(film_id) as количество_фильмов from actors natural join actors_films as t1
@@ -181,7 +183,7 @@ select distinct country_name from countries natural join films as t2 where exist
 );
 
 # 33. Вывести все рецензии, оценка фильма от автора у которых выше рейтинга самого фильма
-select * from reviews as t1 where author_mark > (
+select review_id, review_name, author_name, author_mark, film_id from reviews as t1 where author_mark > (
 	select rating from films as t2 where t1.film_id = t2.film_id
 );
 

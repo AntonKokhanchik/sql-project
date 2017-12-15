@@ -59,19 +59,19 @@ insert into nominations values
 ("Лучшая мужская роль второго плана");
 
 delimiter //
-create trigger after_insert_reward after insert on rewardings_oscar
+create trigger before_insert_reward before insert on rewardings_oscar
 for each row
 begin
 	if new.nomination not in (select nomination from nominations) then
-		delete from rewardings_oscar where nomination = new.nomination;
+		set new.nomination = "за такое не неграждают";
 	end if;
 end //
 delimiter ;
-drop trigger after_insert_reward;
+
+drop trigger before_insert_reward;
 insert into rewardings_oscar value
 (2017, 1491, 301, "Лучшая мужская роль"),
 (2017, 4810, 81924, "Лучшая кошачья мята");
-
 show triggers;
 
 # 6. Создать триггер, который заполняет таблицу Аудит при изменении таблицы Фильмы

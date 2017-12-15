@@ -21,7 +21,58 @@ delimiter ;
 insert into countries value (14, "исландия");
 drop trigger upper;
 
-# были: для удаления фильма, страны, для вставки в Оскар (проверка валидности номинации)
+# 3. Создать триггер, который при удалении страны из таблицы Страны заменеят все вхождения этой страны в других таблицах на страну 9 (Неизвестно)
+delimiter //
+create trigger befor_delete_country before delete on countries
+for each row
+begin
+	update actors set country_id = 9 where country_id = old.country_id;
+    update films set country_id = 9 where country_id = old.country_id;
+    update directors set country_id = 9 where country_id = old.country_id;
+    update producers set country_id = 9 where country_id = old.country_id;
+    update screenwriters set country_id = 9 where country_id = old.country_id;
+end //
+delimiter ;
+delete from countries where country_name = "Новая Зеландия";
+
+# 4. Создать триггер для каскадного удаления фильма
+delimiter //
+create trigger before_delete_film before delete on films
+for each row
+begin
+	delete from reviews where film_id = old.film_id;
+    delete from actors_films where film_id = old.film_id;
+end //
+delimiter ;
+delete from films where film_name = "Дети шпионов 4D";
+
+# 5. Создать триггер для вставки в таблицу Награждения, который проверряет, входит ли номинация в допустимое множество
+drop table nominations;
+create table nominations (
+	nomination varchar(50)
+)CHARACTER SET = UTF8;
+
+insert into nominations values
+("Лучшая женская роль"),
+("Лучшая женская роль второго плана"),
+("Лучшая мужская роль"),
+("Лучшая мужская роль второго плана");
+
+delimiter //
+create trigger after_insert_reward after insert on rewardings_oscar
+for each row
+begin
+	if new.nomination not in (select nomination from nominations) then
+		delete from rewardings_oscar where nomination = new.nomination;
+	end if;
+end //
+delimiter ;
+drop trigger after_insert_reward;
+insert into rewardings_oscar value
+(2017, 1491, 301, "Лучшая мужская роль"),
+(2017, 4810, 81924, "Лучшая кошачья мята");
+
+show triggers;
 
 # 6. Создать триггер, который заполняет таблицу Аудит при изменении таблицы Фильмы
 create table AuditFilms (

@@ -130,7 +130,7 @@ begin
 end//
 delimiter ;
 drop trigger before_insert_reviews;
-insert into reviews value (9, "la-la", "anonimus", 2213, 9, "Ок, только режисер - редиска, убил Джека. Редиска. Точно");
+insert into reviews value (9, "la-la", "anonimus", 2213, 9, "Ок, только режисер - редиска, убил Джека. Он точно редиска");
 insert into reviews value (10, "la-la", "anonimus", 2213, 9, "А редиска-то может и не редиска....");
 
 # 8. Создать триггер, который проверяет, есть ли у вставляемой рецензии название. Если нет, дает название "без названия"
@@ -145,7 +145,7 @@ end//
 delimiter ;
 drop trigger before_insert_reviews;
 insert into reviews (review_name, author_name, film_id, author_mark, review_text) 
-value (null, "anonimus", 2213, 9, "А редиска-то может и не редиска....");
+value (null, "anonimus", 2213, 9, "Пробный текст....");
 
 # 9. Создать триггер, который переводит фамилии и имена всех новых актеров в верхний регистр
 delimiter //
@@ -194,6 +194,7 @@ insert into people values
 (3, "Петр", "Прод", 2017, 9, "продюсер");
 
 # 11. Создать триггер, который при удалении из таблицы Актеры заносит данные об удаляемом в таблицу Архив
+drop table archive;
 create table archive(
 	date_operation datetime,
     name_operation varchar(20),
@@ -204,6 +205,7 @@ create table archive(
     d_country tinyint(3)
 )CHARACTER SET = UTF8; 
 
+drop trigger before_delete_actors;
 delimiter //
 create trigger before_delete_actors before delete on actors
 for each row
@@ -211,7 +213,7 @@ begin
 	insert into archive value(now(), "delete", old.actor_id, old.actor_name, old.actor_surname, old.birth_year, old.country_id);
 end//
 delimiter ;
-delete from actors where actor_id = 2;
+delete from actors where actor_id = 1;
 
 # 12-13. Создать триггер для логирования операция по таблице Актеры-Фильмы
 create table actosr_films_log(
@@ -221,7 +223,7 @@ create table actosr_films_log(
 	f_id int(10),
     a_character varchar(40)
 )CHARACTER SET = UTF8; 
-
+drop table actosr_films_log;
 delimiter //
 create trigger after_update_actors_films after update on actors_films
 for each row
@@ -238,6 +240,9 @@ begin
 end//
 delimiter ;
 
+drop trigger after_update_actors_films;
+drop trigger before_delete_actors_films;
+
 update actors_films set character_name = "Джокер" where actor_id = 1183 and film_id = 111543;
 delete from actors_films where actor_id = 38703 and film_id = 437410;
 
@@ -252,3 +257,5 @@ begin
 end //
 delimiter ;
 delete from actors where actor_id = 23100;
+
+

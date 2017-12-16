@@ -130,7 +130,7 @@ begin
 end//
 delimiter ;
 drop trigger before_insert_reviews;
-insert into reviews value (9, "la-la", "anonimus", 2213, 9, "Ок, только режисер - редиска, убил Джека. Редиска. Точно");
+insert into reviews value (9, "la-la", "anonimus", 2213, 9, "Ок, только режисер - редиска, убил Джека. Он точно редиска");
 insert into reviews value (10, "la-la", "anonimus", 2213, 9, "А редиска-то может и не редиска....");
 
 # 8. Создать триггер, который проверяет, есть ли у вставляемой рецензии название. Если нет, дает название "без названия"
@@ -145,5 +145,117 @@ end//
 delimiter ;
 drop trigger before_insert_reviews;
 insert into reviews (review_name, author_name, film_id, author_mark, review_text) 
-value (null, "anonimus", 2213, 9, "А редиска-то может и не редиска....");
+value (null, "anonimus", 2213, 9, "Пробный текст....");
+
+# 9. Создать триггер, который переводит фамилии и имена всех новых актеров в верхний регистр
+delimiter //
+create trigger before_insert_actors before insert on actors
+for each row
+begin
+	set new.actor_name = CONCAT(upper(left(new.actor_name,1)), substr(new.actor_name,2));
+    set new.actor_surname = CONCAT(upper(left(new.actor_surname,1)), substr(new.actor_surname,2));
+end//
+delimiter ;
+insert into actors value
+(2, "иван", "ван", 2017, 9);
+
+# 10. Создать таблицу Люди, содержащую поле "деятельность". Теперь данные о всех актерах, режиссерах, продюссерах, сценаристах вставляются в эту таблицу. 
+#	  Создать триггер, который будет при вставке в таблицу Люди переносить данные о новом человеке в нужную таблицу.
+drop table People;
+create table People(
+	p_id int(10),
+    p_name varchar(30),
+    p_surname varchar(20),
+    p_year int(4),
+    p_country tinyint(3),
+    p_special varchar(15)
+)CHARACTER SET = UTF8; 
+
+delimiter //
+create trigger after_insert_people after insert on people
+for each row
+begin
+	if new.p_special = "актер" then
+		insert into actors value (new.p_id, new.p_name, new.p_surname, new.p_year, new.p_country);
+	end if;
+	if new.p_special = "режиссер" then
+		insert into directors value (new.p_id, new.p_name, new.p_surname, new.p_year, new.p_country);
+	end if;
+	if new.p_special = "сценарист" then
+		insert into screenwriters value (new.p_id, new.p_name, new.p_surname, new.p_year, new.p_country);
+	end if;
+	if new.p_special = "продюсер" then
+		insert into producers value (new.p_id, new.p_name, new.p_surname, new.p_year, new.p_country);
+	end if;
+end //
+delimiter ;
+insert into people values
+(3, "иван", "реж", 2017, 9, "режиссер"),
+(3, "Петр", "Прод", 2017, 9, "продюсер");
+
+# 11. Создать триггер, который при удалении из таблицы Актеры заносит данные об удаляемом в таблицу Архив
+drop table archive;
+create table archive(
+	date_operation datetime,
+    name_operation varchar(20),
+	d_id int(10),
+    d_name varchar(30),
+    d_surname varchar(20),
+    d_year int(4),
+    d_country tinyint(3)
+)CHARACTER SET = UTF8; 
+
+drop trigger before_delete_actors;
+delimiter //
+create trigger before_delete_actors before delete on actors
+for each row
+begin
+	insert into archive value(now(), "delete", old.actor_id, old.actor_name, old.actor_surname, old.birth_year, old.country_id);
+end//
+delimiter ;
+delete from actors where actor_id = 1;
+
+# 12-13. Создать триггер для логирования операция по таблице Актеры-Фильмы
+create table actosr_films_log(
+	date_operation datetime,
+    name_operation varchar(20),
+	a_id int(10),
+	f_id int(10),
+    a_character varchar(40)
+)CHARACTER SET = UTF8; 
+drop table actosr_films_log;
+delimiter //
+create trigger after_update_actors_films after update on actors_films
+for each row
+begin
+	insert into actosr_films_log value(now(), "update", old.actor_id, old.film_id, old.character_name);
+end//
+delimiter ;
+
+delimiter //
+create trigger before_delete_actors_films before delete on actors_films
+for each row
+begin
+	insert into actosr_films_log value(now(), "delete", old.actor_id, old.film_id, old.character_name);
+end//
+delimiter ;
+
+drop trigger after_update_actors_films;
+drop trigger before_delete_actors_films;
+
+update actors_films set character_name = "Джокер" where actor_id = 1183 and film_id = 111543;
+delete from actors_films where actor_id = 38703 and film_id = 437410;
+
+# 14. Создать триггер для каскадного удаления актера
+drop trigger before_delete_actors;
+delimiter //
+create trigger before_delete_actors before delete on actors
+for each row
+begin
+	delete from actors_films where actor_id = old.actor_id;
+    delete from rewardings_oscar where actor_id = old.actor_id;
+end //
+delimiter ;
+delete from actors where actor_id = 23100;
+
 
